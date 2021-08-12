@@ -6,36 +6,39 @@ let setupOpen = document.querySelector('.setup-open');
 let setupClose = document.querySelector('.setup-close');
 
 
-let openPopup = function () {
+let closePopup = function () {
   setup.classList.add('hidden');
   setupClose.removeEventListener('click', clickSetupClose);
+  
 };
-let closePopup = function () {
+let openPopup = function () {
   setup.classList.remove('hidden');
+  
   setupClose.addEventListener('click', clickSetupClose);
   document.addEventListener('keydown', pressEsc);
   setupClose.addEventListener('keydown', pressEnterOnClose);
+  
 };
 
 let clickSetupOpen = function () {
-  closePopup();
+  openPopup();
 };
 let clickSetupClose = function () {
-  openPopup();
+  closePopup();
 };
 let pressEsc = function () {
   if (event.key == "Escape") {
-    openPopup();
+    closePopup();
   }
 };
 let pressEnterOnClose = function () {
   if (event.key == "Enter") {
-    openPopup();
+    closePopup();
   }
 };
 let pressEnterOnOpen = function () {
   if (event.key == "Enter") {
-    closePopup();
+    openPopup();
   }
 };
 
@@ -164,3 +167,60 @@ let changeFierball = function () {
 wizardCoat.addEventListener('click', changeCoat);
 wizardEyes.addEventListener('click', changeEyes);
 wizardFierball.addEventListener('click', changeFierball);
+
+
+
+let setupUserPic = document.querySelector('.upload');
+let posX1 = 0;
+let posY1 = 0;
+let posX2 = 0;
+let posY2 = 0;
+let posFinal = 0;
+let posShiftX = 0;
+let posShiftY = 0;
+let startCords;
+let dragged = false;
+
+
+let setupStart = function () {
+
+  startCords = {
+    x: event.clientX,
+    y: event.clientY
+  };
+
+  document.addEventListener('mousemove', setupMove);
+  document.addEventListener('mouseup', setupEnd);
+};
+
+let setupMove = function (event) {
+  dragged = true;
+  let shift = {
+    x: startCords.x - event.clientX,
+    y: startCords.y - event.clientY
+  }
+
+  startCords = {
+    x: event.clientX,
+    y: event.clientY
+  };
+  
+  setup.style.left = setup.offsetLeft - shift.x + 'px';
+  setup.style.top = setup.offsetTop - shift.y + 'px';
+}
+
+let setupEnd = function () {
+  if (dragged) {
+    let clickPreventdefault = function() {
+      event.preventDefault();
+      setupUserPic.removeEventListener('click', clickPreventdefault);
+    }
+    setupUserPic.addEventListener('click', clickPreventdefault);
+    dragged = false;
+  } 
+  
+  document.removeEventListener('mousemove', setupMove);
+  document.removeEventListener('mouseup', setupEnd);
+};
+
+setupUserPic.addEventListener('mousedown', setupStart);
