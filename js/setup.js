@@ -1,3 +1,5 @@
+// ОТКРЫТИЕ/ЗАКРЫТИЕ ОКНА НАСТРОЙКИ ПЕРСОНАЖА
+
 let setup = document.querySelector('.setup');
 let setupSimilar = document.querySelector('.setup-similar').classList.remove('hidden');
 let setupWizardForm = document.querySelector('.setup-wizard-form');
@@ -47,6 +49,8 @@ setupOpen.addEventListener('keydown', pressEnterOnOpen);
 
 
 
+
+// МОК ПОХОЖИХ ПЕРСОНАЖЕЙ
 
 let userNameInput = setup.querySelector('.setup-user-name');
 
@@ -104,40 +108,35 @@ let fierballColor = [
   "#e6e848"  
 ];
 
-let simpleMages = [
-  {
-    name: wizardFirstNames[Math.floor(Math.random()*wizardFirstNames.length)] + ' ' + wizardSecondNames[Math.floor(Math.random()*wizardSecondNames.length)],
-    coatColor: coatColors[Math.floor(Math.random()*coatColors.length)],
-    eyesColor: eyesColors[Math.floor(Math.random()*eyesColors.length)]
-  },
-  {
-    name: wizardFirstNames[Math.floor(Math.random()*wizardFirstNames.length)] + ' ' + wizardSecondNames[Math.floor(Math.random()*wizardSecondNames.length)],
-    coatColor: coatColors[Math.floor(Math.random()*coatColors.length)],
-    eyesColor: eyesColors[Math.floor(Math.random()*eyesColors.length)]
-  },
-  {
-    name: wizardFirstNames[Math.floor(Math.random()*wizardFirstNames.length)] + ' ' + wizardSecondNames[Math.floor(Math.random()*wizardSecondNames.length)],
-    coatColor: coatColors[Math.floor(Math.random()*coatColors.length)],
-    eyesColor: eyesColors[Math.floor(Math.random()*eyesColors.length)]
-  },
-  {
-    name: wizardFirstNames[Math.floor(Math.random()*wizardFirstNames.length)] + ' ' + wizardSecondNames[Math.floor(Math.random()*wizardSecondNames.length)],
-    coatColor: coatColors[Math.floor(Math.random()*coatColors.length)],
-    eyesColor: eyesColors[Math.floor(Math.random()*eyesColors.length)]
-  }
-];
+// let simpleMages = [
+//   {
+//     name: wizardFirstNames[Math.floor(Math.random()*wizardFirstNames.length)] + ' ' + wizardSecondNames[Math.floor(Math.random()*wizardSecondNames.length)],
+//     coatColor: coatColors[Math.floor(Math.random()*coatColors.length)],
+//     eyesColor: eyesColors[Math.floor(Math.random()*eyesColors.length)]
+//   },
+//   {
+//     name: wizardFirstNames[Math.floor(Math.random()*wizardFirstNames.length)] + ' ' + wizardSecondNames[Math.floor(Math.random()*wizardSecondNames.length)],
+//     coatColor: coatColors[Math.floor(Math.random()*coatColors.length)],
+//     eyesColor: eyesColors[Math.floor(Math.random()*eyesColors.length)]
+//   },
+//   {
+//     name: wizardFirstNames[Math.floor(Math.random()*wizardFirstNames.length)] + ' ' + wizardSecondNames[Math.floor(Math.random()*wizardSecondNames.length)],
+//     coatColor: coatColors[Math.floor(Math.random()*coatColors.length)],
+//     eyesColor: eyesColors[Math.floor(Math.random()*eyesColors.length)]
+//   },
+//   {
+//     name: wizardFirstNames[Math.floor(Math.random()*wizardFirstNames.length)] + ' ' + wizardSecondNames[Math.floor(Math.random()*wizardSecondNames.length)],
+//     coatColor: coatColors[Math.floor(Math.random()*coatColors.length)],
+//     eyesColor: eyesColors[Math.floor(Math.random()*eyesColors.length)]
+//   }
+// ];
 
-let similarListElement = document.querySelector('.setup-similar-list');
 
-let tpl = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
-for (let i = 0; i < 4; i++) {
-  let wizardElement = tpl.cloneNode(true);
-  wizardElement.querySelector('.setup-similar-label').textContent = simpleMages[i].name;
-  wizardElement.querySelector('.wizard-coat').style.fill = simpleMages[i].coatColor;
-  wizardElement.querySelector('.wizard-eyes').style.fill = simpleMages[i].eyesColor;
-  similarListElement.append(wizardElement);
-}
+
+
+
+// НАСТРОЙКИ ПЕРСОНАЖА
 
 
 let wizardCoat = document.querySelector('.wizard-coat');
@@ -169,6 +168,8 @@ wizardEyes.addEventListener('click', changeEyes);
 wizardFierball.addEventListener('click', changeFierball);
 
 
+
+// ПЕРЕТАСКИВАНИЕ ОКНА НАСТРОКИ ПЕРСОНАЖА
 
 let setupUserPic = document.querySelector('.upload');
 let posX1 = 0;
@@ -224,3 +225,16 @@ let setupEnd = function () {
 };
 
 setupUserPic.addEventListener('mousedown', setupStart);
+
+
+
+// ОТПРАВКА ФОРМЫ 
+
+let form = document.querySelector('.setup-wizard-form');
+
+form.addEventListener('submit', function() {
+  window.upload(new FormData(form), function (response) {
+    setup.classList.add('hidden');
+  });
+  event.preventDefault();
+})
